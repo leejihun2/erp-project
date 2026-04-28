@@ -28,9 +28,9 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
-    'erp.clients',
-    'erp.sales',
-    'erp.repair',
+    'clients',
+    'sales',
+    'repair',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,7 +66,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'erp.erp.wsgi.application'
+WSGI_APPLICATION = 'erp.wsgi.application'
 
 
 # Database
