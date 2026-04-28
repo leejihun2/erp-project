@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>견적 수정</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h4>기본 정보</h4>
+    {{ form.as_p }}
+
+    <hr>
+
+    <h4>품목</h4>
+    {{ formset.management_form }}
+
+    <table class="table">
+        <tr>
+            <th>품목명</th>
+            <th>단가</th>
+            <th>수량</th>
+        </tr>
+
+        {% for f in formset %}
+        <tr>
+            <td>{{ f.name }}</td>
+            <td>{{ f.price }}</td>
+            <td>{{ f.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button type="submit" class="btn btn-success">수정 완료</button>
+</form>
+
+{% endblock %}

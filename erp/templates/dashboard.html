@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<h2 class="mb-4">📊 대시보드</h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card text-center shadow-sm p-3">
+            <h5>총 견적</h5>
+            <h2>{{ total_count }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center shadow-sm p-3">
+            <h5>총 금액</h5>
+            <h2>{{ total_amount|intcomma }}</h2>
+        </div>
+    </div>
+
+</div>
+
+<hr>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card bg-secondary text-white text-center p-3">
+            대기: {{ draft_count }}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card bg-primary text-white text-center p-3">
+            수주: {{ confirmed_count }}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card bg-success text-white text-center p-3">
+            완료: {{ completed_count }}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

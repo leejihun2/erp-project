@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<h2>{{ client.name }} - 견적 목록</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>견적명</th>
+        <th>금액</th>
+        <th>상태</th>
+    </tr>
+
+    {% for e in estimates %}
+    <tr>
+        <td>{{ e.title }}</td>
+        <td>{{ e.amount|intcomma }} {{ e.currency }}</td>
+        <td>
+            {% if e.status == 'draft' %}
+                <span class="badge bg-secondary">대기</span>
+            {% elif e.status == 'confirmed' %}
+                <span class="badge bg-primary">수주</span>
+            {% else %}
+                <span class="badge bg-success">완료</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">견적이 없습니다</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="/sales/create/" class="btn btn-primary">+ 견적 추가</a>
+
+{% endblock %}
