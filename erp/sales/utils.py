@@ -7,20 +7,33 @@ from reportlab.pdfbase.ttfonts import TTFont
 import os
 from datetime import datetime
 
-
-# 폰트 등록
+# 📌 1. 폰트 경로 설정 및 등록
+# 서버 환경에서도 에러가 나지 않도록 예외 처리를 하나로 통합했습니다.
 font_path = os.path.join(os.path.dirname(__file__), 'fonts', 'malgun.ttf')
-pdfmetrics.registerFont(TTFont('MalgunGothic', font_path))
 
+try:
+    if os.path.exists(font_path):
+        pdfmetrics.registerFont(TTFont('MalgunGothic', font_path))
+        FONT_NAME = 'MalgunGothic'
+    else:
+        # 폰트 파일이 없을 경우 대비 (서버 로그에서 확인 가능)
+        print(f"Warning: Font file not found at {font_path}. Falling back to Helvetica.")
+        FONT_NAME = 'Helvetica'
+except Exception as e:
+    print(f"Font registration failed: {e}")
+    FONT_NAME = 'Helvetica'
+
+# ❌ (기존에 있던 에러 원인) 이 아래에 있던 중복된 registerFont 줄을 삭제했습니다.
 
 def generate_estimate_pdf(response, estimate):
     doc = SimpleDocTemplate(response, pagesize=A4)
     elements = []
     styles = getSampleStyleSheet()
 
-    # 폰트 적용
-    styles['Normal'].fontName = 'MalgunGothic'
-    styles['Title'].fontName = 'MalgunGothic'
+    # 📌 2. 결정된 FONT_NAME 적용
+    # 폰트가 있으면 MalgunGothic, 없으면 Helvetica가 적용됩니다.
+    styles['Normal'].fontName = FONT_NAME
+    styles['Title'].fontName = FONT_NAME
 
     # 📌 회사명
     elements.append(Paragraph("타이거몰드앤베이스", styles['Title']))
@@ -58,7 +71,8 @@ def generate_estimate_pdf(response, estimate):
     table = Table(data, colWidths=[150, 100, 80, 120])
 
     table.setStyle(TableStyle([
-        ('FONTNAME', (0,0), (-1,-1), 'MalgunGothic'),
+        # 테이블 안의 폰트도 유동적으로 적용
+        ('FONTNAME', (0,0), (-1,-1), FONT_NAME),
 
         # 헤더
         ('BACKGROUND', (0,0), (-1,0), colors.grey),
