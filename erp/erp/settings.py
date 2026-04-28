@@ -28,9 +28,9 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
-    'erp.clients',
-    'erp.sales',
-    'erp.repair',
+    'clients',
+    'sales',
+    'repair',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
